@@ -1,0 +1,161 @@
+[
+  {
+    "id": "1",
+    "name": "Chic & Trendy Boutique",
+    "deliveryFee": 1.4,
+    "minDeliveryTime": 25,
+    "maxDeliveryTime": 35,
+    "rating": 4.0,
+    "image": "magazin-femme1.png",
+    "dishes": [
+      {
+        "name": "Classic Denim Jacket",
+        "description": "Stylish and versatile denim jacket, perfect for casual outfits.",
+        "price": 124.75,
+        "image": "magazin-femme2.png"
+      },
+      {
+        "name": "Summer Floral Dress",
+        "description": "Light and breezy dress with vibrant floral patterns, ideal for summer days.",
+        "price": 89.75,
+        "image": "magazin-femme3.png"
+      },
+      {
+        "name": "Leather Handbag",
+        "description": "Premium quality leather handbag with multiple compartments.",
+        "price": 224.75,
+        "image": "magazin-femme4.png"
+      },
+      {
+        "name": "Classic White Sneakers",
+        "description": "Comfortable and stylish sneakers, suitable for any occasion.",
+        "price": 149.75,
+        "image": "magazin-femme5.png"
+      },
+      {
+        "name": "Wool Scarf",
+        "description": "Soft and warm wool scarf available in various colors.",
+        "price": 49.75,
+        "image": "magazin-femme6.png"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Elegant Attire",
+    "deliveryFee": 0.4,
+    "minDeliveryTime": 25,
+    "maxDeliveryTime": 35,
+    "rating": 4.7,
+    "image": "magazin-femme2.png",
+    "dishes": [
+      {
+        "name": "Evening Gown",
+        "description": "Elegant evening gown with intricate lace details, perfect for formal events.",
+        "price": 302.38,
+        "image": "magazin-homme2.png"
+      },
+      {
+        "name": "Tailored Suit",
+        "description": "Custom-fitted suit made from premium fabrics.",
+        "price": 499.88,
+        "image": "magazin-homme3.png"
+      },
+      {
+        "name": "Silk Tie",
+        "description": "Luxurious silk tie with classic patterns.",
+        "price": 64.88,
+        "image": "magazin-homme4.png"
+      },
+      {
+        "name": "Leather Belt",
+        "description": "Durable and stylish leather belt with a modern buckle design.",
+        "price": 39.88
+      },
+      {
+        "name": "Formal Shoes",
+        "description": "Polished leather shoes designed for formal occasions.",
+        "price": 249.88
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Urban Streetwear",
+    "deliveryFee": 1.4,
+    "minDeliveryTime": 20,
+    "maxDeliveryTime": 30,
+    "rating": 4.3,
+    "image": "magazin-homme1.png",
+    "dishes": [
+      {
+        "name": "Hoodie",
+        "description": "Comfortable oversized hoodie with unique urban designs.",
+        "price": 99.75,
+        "image": "magazin-homme2.png"
+      },
+      {
+        "name": "Cargo Pants",
+        "description": "Functional and trendy cargo pants with multiple pockets.",
+        "price": 74.75,
+        "image": "magazin-homme3.png"
+      },
+      {
+        "name": "Graphic T-Shirt",
+        "description": "T-shirt with eye-catching graphic prints.",
+        "price": 49.75,
+        "image": "magazin-homme4.png"
+      },
+      {
+        "name": "Snapback Cap",
+        "description": "Adjustable snapback cap with embroidered logo.",
+        "price": 37.25
+      },
+      {
+        "name": "High-top Sneakers",
+        "description": "Street-style sneakers with a comfortable fit.",
+        "price": 149.75
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "name": "Fashion Forward",
+    "deliveryFee": 0.9,
+    "minDeliveryTime": 30,
+    "maxDeliveryTime": 40,
+    "rating": 4.5,
+    "image": "magazin-homme3.png",
+    "dishes": [
+      {
+        "name": "Blazer",
+        "description": "Classic blazer with a modern fit, perfect for both casual and formal settings.",
+        "price": 249.75,
+        "image": "magazin-homme2.png"
+      },
+      {
+        "name": "Pencil Skirt",
+        "description": "Elegant pencil skirt with a comfortable stretch fit.",
+        "price": 124.75,
+        "image": "magazin-homme3.png"
+      },
+      {
+        "name": "Knitted Sweater",
+        "description": "Cozy knitted sweater in neutral tones.",
+        "price": 99.75,
+        "image": "magazin-homme1.png"
+      },
+      {
+        "name": "Leather Jacket",
+        "description": "High-quality leather jacket with a timeless design.",
+        "price": 374.75,
+        "image": "magazin-homme4.png"
+      },
+      {
+        "name": "Ankle Boots",
+        "description": "Trendy ankle boots with a chunky heel.",
+        "price": 199.75
+      }
+    ]
+  }
+]
