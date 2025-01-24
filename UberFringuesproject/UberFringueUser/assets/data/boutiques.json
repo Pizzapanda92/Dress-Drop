@@ -1,7 +1,7 @@
 [
   {
     "id": "1",
-    "name": "Zaro",
+    "name": "Za",
     "deliveryFee": 1.4,
     "minDeliveryTime": 25,
     "maxDeliveryTime": 35,
@@ -12,22 +12,13 @@
         "name": "Classic Denim Jacket",
         "description": "Stylish and versatile denim jacket, perfect for casual outfits.",
         "price": 124.75,
-        "images": [
-          "https://i.postimg.cc/GtyMkWsz/accessoire.png",
-          "https://i.postimg.cc/L4Y0K10f/accessoire2.png",
-          "https://i.postimg.cc/3RWfw48s/casquette.png"
-        ]
-
+        "image": "https://i.postimg.cc/GtyMkWsz/accessoire.png"
       },
       {
         "name": "Summer Floral Dress",
         "description": "Light and breezy dress with vibrant floral patterns, ideal for summer days.",
         "price": 89.75,
-        "images": [
-          "https://i.postimg.cc/L4Y0K10f/accessoire2.png",
-          "https://i.postimg.cc/MTh5K9rB/pull.png",
-          "https://i.postimg.cc/Y9VnLrjh/chaussures.png"
-        ]
+        "image": "https://i.postimg.cc/L4Y0K10f/accessoire2.png"
       },
       {
         "name": "Leather Handbag",
