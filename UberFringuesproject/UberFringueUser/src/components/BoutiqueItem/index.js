@@ -1,34 +1,10 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 
-const getImagePath = (imageName) => {
-    switch (imageName) {
-        case 'magazin-femme1.png':
-            return require('../../../assets/images/magazin-femme1.png');
-        case 'magazin-femme2.png':
-            return require('../../../assets/images/magazin-femme2.png');
-        case 'magazin-femme3.png':
-            return require('../../../assets/images/magazin-femme3.png');
-        case 'magazin-femme4.png':
-            return require('../../../assets/images/magazin-femme4.png');
-        case 'magazin-femme5.png':
-            return require('../../../assets/images/magazin-femme5.png');
-        case 'magazin-femme6.png':
-            return require('../../../assets/images/magazin-femme6.png');
-        case 'magazin-homme1.png':
-            return require('../../../assets/images/magazin-homme1.png');
-        case 'magazin-homme2.png':
-            return require('../../../assets/images/magazin-homme2.png');
-        case 'magazin-homme3.png':
-            return require('../../../assets/images/magazin-homme3.png');
-        case 'magazin-homme4.png':
-            return require('../../../assets/images/magazin-homme4.png');
-    }
-};
 const BoutiqueItem = ({ boutiques }) => {
     return (
         <View style={styles.boutiqueContainer}>
             <Image
-                source={getImagePath(boutiques.image)} // Image dynamique
+                source={{ uri: boutiques.image }} // Utilisation de l'URL directement
                 style={styles.image}
             />
             <View style={styles.row}>
@@ -38,7 +14,7 @@ const BoutiqueItem = ({ boutiques }) => {
                         {boutiques.deliveryFee} € &#8226; {boutiques.minDeliveryTime} - {boutiques.maxDeliveryTime} minutes
                     </Text>
                 </View>
-                {/* Rating ajouté ici */}
+                {/* Rating */}
                 <View style={styles.rating}>
                     <Text>{boutiques.rating}</Text>
                 </View>
@@ -73,7 +49,7 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row', 
         justifyContent: 'space-between', 
-        alignItems: 'center', 
+        alignItems: 'center',
     },
     rating: {
         marginLeft: "auto", 
@@ -84,9 +60,6 @@ const styles = StyleSheet.create({
         justifyContent: "center", 
         borderRadius: 10, 
         borderWidth: 1, 
-        borderColor: "#DAA520", 
+        borderColor: "#DAA520",
     },
-    
-      
-      
 });
