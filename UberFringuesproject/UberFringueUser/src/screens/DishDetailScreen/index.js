@@ -17,6 +17,10 @@ const DishDetailsScreen = () => {
         setQuantity(quantity + 1);
     };
 
+    const getTotal = () => {
+        return (dish.price * quantity).toFixed(2);
+    }
+
   return (
     <View style={styles.page}>
       <Image 
@@ -45,6 +49,9 @@ const DishDetailsScreen = () => {
             onPress={onPlus} 
             />
         </View>
+          <View style={styles.button}>
+          <Text style={styles.buttonText}>Ajoute {quantity} dans le panier  &#8226;  {getTotal()}€</Text>
+          </View>
     </View>
   );
 };
@@ -88,7 +95,20 @@ const styles = StyleSheet.create({
   quantity: {
     fontSize: 31,
     marginHorizontal: 20,
-  }
+  },
+
+  button: {
+    backgroundColor: "black",
+    marginTop: "auto",
+    padding: 20,
+    alignItems: "center",
+  },
+
+  buttonText: {
+    color: "white",
+    frontWeight: "600",
+    fontSize: 18,
+  },
 });
 
 export default DishDetailsScreen;
