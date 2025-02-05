@@ -1,31 +1,34 @@
-import { View, Text, Image, StyleSheet, FlatList } from "react-native";
-import boutiques from '../../../assets/data/boutiques.json'; // Charger les données avec URL
-import {Ionicons} from "@expo/vector-icons";
-import MenuListeItem from "../../components/MenuListeItem";
+import { View, FlatList } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import DishListItem from "../../components/DishListItem";
+import boutiques from "../../../assets/data/boutiques.json";
 import Header from "./Header";
-import styles from './styles';
-
-const boutique = boutiques[0]; // Charger la première boutique
-
+import styles from "./styles";
+import { useRoute, useNavigation } from "@react-navigation/native";
+const boutique = boutiques[0];
 const BoutiqueDetailsPage = () => {
-    return (
-        <View style={styles.page}>
-            <FlatList
-                ListHeaderComponent={ () => <Header  boutique={boutique} />}
-                data={boutique.dishes}
-                renderItem={({ item }) => <MenuListeItem dish={item} />}
-                />
-                    <Ionicons
-                        onPress={() => navigation.goBack()}
-                        name="arrow-back-circle"
-                        size={45}
-                        color="black"
-                        style={styles.iconContainer}
-                    />
-        </View>
-    );
+  const route = useRoute();
+  const navigation = useNavigation();
+  const id = route.params?.id;
+  console.warn(id);
+  return (
+    <View style={styles.page}>
+      <FlatList
+        ListHeaderComponent={() => <Header boutique={boutique} />}
+        data={boutique.dishes}
+        renderItem={({ item }) => <DishListItem dish={item} />}
+        keyExtractor={(item) => item.name}
+      />
+      <Ionicons
+        onPress={() => navigation.goBack()}
+        name="arrow-back-circle"
+        size={45}
+        color="white"
+        style={styles.iconContainer}
+      />
+    </View>
+  );
 };
-
 export default BoutiqueDetailsPage;
 
 
