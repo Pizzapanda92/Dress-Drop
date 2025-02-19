@@ -1,21 +1,50 @@
+import React, { useState, useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
-import HomeScreen from "../screens/HomeScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Pour stocker le token utilisateur
+
+import AuthScreen from "../screens/AuthScreen/index";  // Import de l'écran d'authentification
+import HomeScreen from "../screens/HomeScreen/index";
 import BoutiqueDetailsScreen from "../screens/BoutiqueDetailsScreen";
-import DishDetailsScreen from "../screens/DishDetailScreen"; 
+import DishDetailsScreen from "../screens/DishDetailScreen";
 import Basket from "../screens/Basket";
 import OrdersScreen from "../screens/OrdersScreen";
 import OrderDetails from "../screens/OrderDetails";
+
 import { Foundation, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+
 const Stack = createNativeStackNavigator();
+
 const RootNavigator = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Vérifier si un token est stocké
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = await AsyncStorage.getItem("token");
+      setIsAuthenticated(!!token); // Si le token existe, l'utilisateur est connecté
+    };
+
+    checkAuth();
+  }, []);
+
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="HomeTabs" component={HomeTabs} />
-    </Stack.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {isAuthenticated ? (
+          <Stack.Screen name="HomeTabs" component={HomeTabs} />
+        ) : (
+          <Stack.Screen name="Auth" component={AuthScreen} />
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
+
+// Navigation par onglets (Home, Commandes, Profil)
 const Tab = createMaterialBottomTabNavigator();
+
 const HomeTabs = () => {
   return (
     <Tab.Navigator barStyle={{ backgroundColor: "white" }}>
@@ -49,6 +78,8 @@ const HomeTabs = () => {
     </Tab.Navigator>
   );
 };
+
+// Navigation interne de Home
 const HomeStack = createNativeStackNavigator();
 const HomeStackNavigator = () => {
   return (
@@ -60,6 +91,8 @@ const HomeStackNavigator = () => {
     </HomeStack.Navigator>
   );
 };
+
+// Navigation interne des commandes
 const OrdersStack = createNativeStackNavigator();
 const OrderStackNavigator = () => {
   return (
@@ -69,4 +102,5 @@ const OrderStackNavigator = () => {
     </OrdersStack.Navigator>
   );
 };
+
 export default RootNavigator;
