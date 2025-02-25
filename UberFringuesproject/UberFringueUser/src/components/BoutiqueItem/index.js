@@ -1,18 +1,16 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
 const BoutiqueItem = ({ boutique }) => {
   const navigation = useNavigation();
+
   const onPress = () => {
-    navigation.navigate("Boutique", { id: boutique.id });
+    navigation.navigate("Boutique", { id: boutique.id }); // ✅ On envoie bien l'ID
   };
+
   return (
     <Pressable onPress={onPress} style={styles.boutiqueContainer}>
-      <Image
-        source={{
-          uri: boutique.image,
-        }}
-        style={styles.image}
-      />
+      <Image source={{ uri: boutique.image }} style={styles.image} />
       <View style={styles.row}>
         <View>
           <Text style={styles.title}>{boutique.name}</Text>
@@ -28,7 +26,9 @@ const BoutiqueItem = ({ boutique }) => {
     </Pressable>
   );
 };
+
 export default BoutiqueItem;
+
 const styles = StyleSheet.create({
   boutiqueContainer: {
     width: "100%",

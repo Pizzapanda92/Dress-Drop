@@ -1,27 +1,31 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 import HomeScreen from "../screens/HomeScreen";
-import BoutiqueDetailsScreen from "../screens/BoutiqueDetailsScreen";
+import BoutiqueDetailsScreen from "../screens/BoutiqueDetailsScreen"; 
 import DishDetailsScreen from "../screens/DishDetailScreen"; 
 import Basket from "../screens/Basket";
 import OrdersScreen from "../screens/OrdersScreen";
 import OrderDetails from "../screens/OrderDetails";
 import { Foundation, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+
 const Stack = createNativeStackNavigator();
+
 const RootNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="HomeTabs" component={HomeTabs} />
+      <Stack.Screen name="HomeTabs" children={() => <HomeTabs />} />
     </Stack.Navigator>
   );
 };
+
 const Tab = createMaterialBottomTabNavigator();
+
 const HomeTabs = () => {
   return (
     <Tab.Navigator barStyle={{ backgroundColor: "white" }}>
       <Tab.Screen
         name="Home"
-        component={HomeStackNavigator}
+        children={() => <HomeStackNavigator />} 
         options={{
           tabBarIcon: ({ color }) => (
             <Foundation name="home" size={24} color={color} />
@@ -30,7 +34,7 @@ const HomeTabs = () => {
       />
       <Tab.Screen
         name="Orders"
-        component={OrderStackNavigator}
+        children={() => <OrderStackNavigator />} 
         options={{
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="list-alt" size={24} color={color} />
@@ -49,7 +53,9 @@ const HomeTabs = () => {
     </Tab.Navigator>
   );
 };
+
 const HomeStack = createNativeStackNavigator();
+
 const HomeStackNavigator = () => {
   return (
     <HomeStack.Navigator>
@@ -60,7 +66,9 @@ const HomeStackNavigator = () => {
     </HomeStack.Navigator>
   );
 };
+
 const OrdersStack = createNativeStackNavigator();
+
 const OrderStackNavigator = () => {
   return (
     <OrdersStack.Navigator>
@@ -69,4 +77,5 @@ const OrderStackNavigator = () => {
     </OrdersStack.Navigator>
   );
 };
+
 export default RootNavigator;

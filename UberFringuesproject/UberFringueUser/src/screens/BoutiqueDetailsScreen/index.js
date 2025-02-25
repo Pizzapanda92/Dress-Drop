@@ -1,16 +1,22 @@
-import { View, FlatList } from "react-native";
+import { View, FlatList, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DishListItem from "../../components/DishListItem";
 import boutiques from "../../../assets/data/boutiques.json";
 import Header from "./Header";
 import styles from "./styles";
 import { useRoute, useNavigation } from "@react-navigation/native";
-const boutique = boutiques[0];
-const BoutiqueDetailsPage = () => {
+
+const BoutiqueDetailsScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const id = route.params?.id;
-  console.warn(id);
+  
+  const boutiqueId = route.params?.id;
+  const boutique = boutiques.find((b) => b.id === boutiqueId);
+
+  if (!boutique) {
+    return <Text style={styles.errorText}>Erreur : Boutique introuvable</Text>; // ✅ Gestion d'erreur
+  }
+
   return (
     <View style={styles.page}>
       <FlatList
@@ -29,7 +35,9 @@ const BoutiqueDetailsPage = () => {
     </View>
   );
 };
-export default BoutiqueDetailsPage;
+
+export default BoutiqueDetailsScreen;
+
 
 
 
