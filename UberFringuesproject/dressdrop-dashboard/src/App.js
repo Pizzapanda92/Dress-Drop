@@ -1,10 +1,10 @@
-import { Card, description, Divider, List, Button} from 'antd';
+import DetailedOrder from "./modules/DetailedOrder";
+
 function App() {
   return (
-    <div>
-      
-    </div>
+   <DetailedOrder />
   );
 }
+
 
 export default App;
