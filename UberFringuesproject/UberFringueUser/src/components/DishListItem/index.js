@@ -4,12 +4,12 @@ import { useNavigation } from "@react-navigation/native";
 const DishListItem = ({ dish }) => {
   const navigation = useNavigation();
 
-  console.log("DISH CLIQUÉ:", dish); // 🔥 Vérifie si l'article a un id
+  console.log("DISH CLIQUÉ:", dish); 
 
   return (
     <Pressable
       onPress={() => {
-        console.log("NAVIGATION VERS Dish:", dish.id); // 🔥 Vérifie avant de naviguer
+        console.log("NAVIGATION VERS Dish:", dish.id); 
         navigation.navigate("Dish", { id: dish.id });
       }}
       style={styles.container}

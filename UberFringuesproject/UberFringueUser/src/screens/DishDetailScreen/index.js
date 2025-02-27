@@ -8,16 +8,16 @@ const DishDetailsScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   
-  console.log("ROUTE PARAMS:", route.params); // 🔥 Affiche ce qu'on reçoit en paramètres
+  console.log("ROUTE PARAMS:", route.params);
 
   const dishId = route.params?.id;
-  console.log("DISH ID:", dishId); // 🔥 Vérifie si l'ID est bien récupéré
+  console.log("DISH ID:", dishId); 
 
   const allDishes = boutiques.flatMap(b => b.dishes);
-  console.log("TOUS LES ARTICLES:", allDishes); // 🔥 Vérifie que les articles existent bien
+  console.log("TOUS LES ARTICLES:", allDishes); 
 
   const dish = allDishes.find(d => d.id === dishId);
-  console.log("ARTICLE TROUVÉ:", dish); // 🔥 Vérifie si on trouve le bon article
+  console.log("ARTICLE TROUVÉ:", dish);
 
   if (!dish) {
     return <Text style={styles.errorText}>Erreur : Article introuvable</Text>;

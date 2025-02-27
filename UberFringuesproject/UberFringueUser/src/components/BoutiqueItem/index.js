@@ -5,7 +5,7 @@ const BoutiqueItem = ({ boutique }) => {
   const navigation = useNavigation();
 
   const onPress = () => {
-    navigation.navigate("Boutique", { id: boutique.id }); // ✅ On envoie bien l'ID
+    navigation.navigate("Boutique", { id: boutique.id }); 
   };
 
   return (

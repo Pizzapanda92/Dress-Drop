@@ -1,0 +1,45 @@
+import { Card, Table } from 'antd';
+import ordersHistory from '../../assets/data/orders-history.json';
+
+const OrderHistory = () => {
+    
+    const tableColumns = [
+        {
+            title: "Order ID",
+            dataIndex: "orderID",
+            key: "orderID"
+        },
+        {
+            title: "Delivery Address",
+            dataIndex: "deliveryAddress",
+            key: "deliveryAddress"
+        },
+        {
+            title: "Price",
+            dataIndex: "price",
+            key: "price",
+            render: (price) => `${price} €`
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
+            render: (status) => (
+            <Tag color={status === "Delivered" ? 'green' : 'red'}>{Status}</Tag>
+            ),
+        }
+    ];
+
+    return (
+        <Card title={'Order History'} style={{ margin: 20 }}>
+            <Table 
+                dataSource={ordersHistory}
+                columns={tableColumns}
+                rowKey="orderID"
+            />
+        </Card>
+    );
+};
+
+export default OrderHistory;
+
