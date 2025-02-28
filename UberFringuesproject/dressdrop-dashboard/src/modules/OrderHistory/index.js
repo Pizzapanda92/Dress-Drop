@@ -1,4 +1,4 @@
-import { Card, Table } from 'antd';
+import { Card, Table, Tag } from 'antd';
 import ordersHistory from '../../assets/data/orders-history.json';
 
 const OrderHistory = () => {

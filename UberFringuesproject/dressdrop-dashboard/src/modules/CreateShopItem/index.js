@@ -1,10 +1,19 @@
-import { Form, Input, Button, Card, InputNumber } from "antd";
+import { Form, Input, Button, Card, InputNumber, message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const { TextArea } = Input;
 
 const CreateClothingItem = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const navigate = useNavigate();
+
+  const onFinish = ({ name, description, price, quantity }) => {
+    console.log("Clothing item created:", { name, description, price, quantity });
+
+    // Afficher un message de succès
+    message.success("Clothing item was created successfully");
+
+    // Rediriger vers la liste des vêtements
+    navigate("/dresing");
   };
 
   const onFinishFailed = (errorInfo) => {
