@@ -1,18 +1,23 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { API_URL } from "@env";
+
 const BoutiqueItem = ({ boutique }) => {
   const navigation = useNavigation();
+
+  // Vérifier si l'image commence par "http" et ajuster l'URL si nécessaire
+  const fullImageUrl = boutique.image.startsWith("http")
+    ? boutique.image
+    : `${API_URL}${boutique.image}`;
+
   const onPress = () => {
-    navigation.navigate("Boutique", { id: boutique.id });
+    console.log("ID de la boutique sélectionnée :", boutique._id); // Utilisez _id si c'est le cas
+    navigation.navigate("BoutiqueDetails", { id: boutique._id }); // Passez l'ID de la boutique
   };
+
   return (
     <Pressable onPress={onPress} style={styles.boutiqueContainer}>
-      <Image
-        source={{
-          uri: boutique.image,
-        }}
-        style={styles.image}
-      />
+      <Image source={{ uri: fullImageUrl }} style={styles.image} />
       <View style={styles.row}>
         <View>
           <Text style={styles.title}>{boutique.name}</Text>
@@ -28,7 +33,9 @@ const BoutiqueItem = ({ boutique }) => {
     </Pressable>
   );
 };
+
 export default BoutiqueItem;
+
 const styles = StyleSheet.create({
   boutiqueContainer: {
     width: "100%",

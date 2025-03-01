@@ -10,8 +10,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const token = await AsyncStorage.getItem("token");
-      setIsAuthenticated(!!token);
-      setLoading(false);
+      setIsAuthenticated(!!token); // Définit l'état d'authentification
+      setLoading(false); // Fin de la vérification
     };
 
     checkAuth();
@@ -19,8 +19,8 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await AsyncStorage.removeItem("token"); // Supprime le token
-      setIsAuthenticated(false); // ✅ Met à jour l'état global
+      await AsyncStorage.removeItem("token"); // Suppression du token
+      setIsAuthenticated(false); // Mise à jour immédiate de l'état
     } catch (error) {
       console.error("Erreur lors de la déconnexion :", error);
     }

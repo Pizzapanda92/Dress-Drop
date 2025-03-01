@@ -1,23 +1,44 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import boutiques from "../../../assets/data/boutiques.json";
-const dish = boutiques[0].dishes[0];
+
 const DishDetailsScreen = () => {
-  const [quantity, setQuantity] = useState(1);
+  const route = useRoute();
   const navigation = useNavigation();
+
+  console.log("ROUTE PARAMS:", route.params);
+
+  const dishId = route.params?.id;
+
+  if (!dishId) {
+    return <Text style={styles.errorText}>Erreur : ID d'article manquant</Text>;
+  }
+
+  const allDishes = boutiques.flatMap(b => b.dishes);
+  const dish = allDishes.find(d => d.id === dishId);
+
+  if (!dish) {
+    return <Text style={styles.errorText}>Erreur : Article introuvable</Text>;
+  }
+
+  const [quantity, setQuantity] = useState(1);
+
   const onMinus = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     }
   };
+
   const onPlus = () => {
     setQuantity(quantity + 1);
   };
+
   const getTotal = () => {
     return (dish.price * quantity).toFixed(2);
   };
+
   return (
     <View style={styles.page}>
       <Text style={styles.name}>{dish.name}</Text>
@@ -49,11 +70,12 @@ const DishDetailsScreen = () => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   page: {
     flex: 1,
     width: "100%",
-    paddingVertical: 40, // temp fix
+    paddingVertical: 40,
     padding: 10,
   },
   name: {
@@ -90,5 +112,11 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 18,
   },
+  errorText: {
+    color: "red",
+    textAlign: "center",
+    marginTop: 20,
+  },
 });
+
 export default DishDetailsScreen;

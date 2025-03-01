@@ -2,11 +2,9 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "@env";
 
-const API_URL = "http://10.0.2.2:5000/api"; // Mets l'IP de ton backend
-
 // Instance Axios avec une configuration de base
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: API_URL, // Utilise la variable d'environnement pour l'URL de l'API
   headers: { "Content-Type": "application/json" },
 });
 
@@ -24,22 +22,10 @@ api.interceptors.request.use(
   }
 );
 
-// Fonction pour récupérer les commandes
-export const getOrders = async () => {
-    try {
-      const response = await api.get(`${API_URL}/order/orderID`);
-      return response.data;
-    } catch (error) {
-      console.error("Erreur lors de la récupération des commandes:", error);
-      throw error;
-    }
-  };
 // Fonction pour se connecter et stocker le token
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Pour stocker le token
-
 export const signIn = async (email, password) => {
   try {
-    const response = await api.post(`${API_URL}/user/login`, { email, password });
+    const response = await api.post("/user/login", { email, password });
 
     if (response.data.token) {
       await AsyncStorage.setItem("token", response.data.token); // Sauvegarde du token
@@ -50,4 +36,30 @@ export const signIn = async (email, password) => {
     console.error("Erreur lors de la connexion:", error);
     throw error;
   }
-}
+};
+
+// Fonction pour récupérer les boutiques
+export const fetchBoutiques = async () => {
+  try {
+    const response = await api.get("/shops");
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des boutiques :", error);
+    throw error;
+  }
+};
+
+// Fonction pour récupérer les commandes
+export const getOrders = async () => {
+  try {
+    const response = await api.get("/order/orderID");
+    return response.data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des commandes:", error);
+    throw error;
+  }
+};
+
+export default api;
+
+
