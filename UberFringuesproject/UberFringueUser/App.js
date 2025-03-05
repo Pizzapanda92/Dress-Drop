@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { View, Text } from "react-native"; // ✅ Ajouté ici
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthProvider } from "./src/context/AuthContext";
+import { CartProvider } from "./src/context/CartContext"; 
+import { NavigationContainer } from "@react-navigation/native"; 
 import RootNavigator from "./src/navigation/index";
-
-const Stack = createStackNavigator();
 
 const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = await AsyncStorage.getItem("token");
-      setLoading(false); // Fin de la vérification
+      await AsyncStorage.getItem("token");
+      setLoading(false);
     };
-
     checkAuth();
   }, []);
 
-  if (loading) return null; // Prévenir l'affichage avant la vérification
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Chargement...</Text>
+      </View>
+    );
+  }
 
   return (
     <AuthProvider>
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
+      <CartProvider>
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
+      </CartProvider>
     </AuthProvider>
   );
 };

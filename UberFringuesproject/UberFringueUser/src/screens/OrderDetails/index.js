@@ -1,5 +1,5 @@
 import { View, Text, Image, FlatList } from "react-native";
-import BasketDishItem from "../../components/BasketDishItem";
+import BasketDressItem from "../../components/BasketDressItem";
 import orders from "../../../assets/data/boutiques_orders.json";
 import boutiques from "../../../assets/data/boutiques.json";
 import styles from "./styles";
@@ -22,8 +22,8 @@ const OrderDetails = () => {
   return (
     <FlatList
       ListHeaderComponent={OrderDetailsHeader}
-      data={boutiques[0].dishes}
-      renderItem={({ item }) => <BasketDishItem basketDish={item} />}
+      data={boutiques[0].clothes} // ✅ Correction ici
+      renderItem={({ item }) => <BasketDressItem basketDish={item} />}
     />
   );
 };

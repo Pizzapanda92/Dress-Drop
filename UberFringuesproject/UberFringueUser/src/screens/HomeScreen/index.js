@@ -38,29 +38,27 @@ export default function HomeScreen() {
   const handleLogout = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
-
+  
       if (!token) {
         console.log("Pas de token trouvé. L'utilisateur est déjà déconnecté.");
-        setIsAuthenticated(false); // Met à jour l'état global
-        navigation.replace("Auth"); // Redirection vers l'écran Auth
+        setIsAuthenticated(false);
+        navigation.navigate("Auth"); // ✅ Correction ici
         return;
       }
-
-      // Si le token existe, on le supprime et on appelle le logout
+  
       await axios.get(`${API_URL}/user/logout`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
-      await AsyncStorage.removeItem("token"); // Suppression du token
-      setIsAuthenticated(false); // Mise à jour du contexte Auth
-      navigation.replace("Auth"); // Redirection vers AuthScreen
-
+  
+      await AsyncStorage.removeItem("token");
+      setIsAuthenticated(false);
+      navigation.navigate("Auth"); // ✅ Correction ici
+  
     } catch (error) {
       console.error("Erreur lors de la déconnexion :", error);
       Alert.alert("Erreur", "Impossible de se déconnecter.");
     }
   };
-
   // Affiche un indicateur de chargement pendant la récupération des données
   if (loading) {
     return (
