@@ -25,9 +25,9 @@ const OrderHistory = () => {
             dataIndex: "status",
             key: "status",
             render: (status) => (
-            <Tag color={status === "Delivered" ? 'green' : 'red'}>{Status}</Tag>
+              <Tag color={status === "Delivered" ? 'green' : 'red'}>{status}</Tag>
             ),
-        }
+          }
     ];
 
     return (

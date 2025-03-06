@@ -1,19 +1,27 @@
 import { Form, Input, Button, Card, InputNumber, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useBoutiqueContext } from "../../contexts/BoutiqueContext"; // 🔹 Import du contexte
 
 const { TextArea } = Input;
 
 const CreateClothingItem = () => {
   const navigate = useNavigate();
+  const { addClothingItem } = useBoutiqueContext(); // 🔹 Récupère la fonction pour ajouter un vêtement
 
   const onFinish = ({ name, description, price, quantity }) => {
-    console.log("Clothing item created:", { name, description, price, quantity });
+    const newItem = {
+      id: Date.now().toString(), // 🔹 Génère un ID unique
+      name,
+      description,
+      price,
+      quantity,
+    };
 
-    // Afficher un message de succès
+    addClothingItem(newItem); // 🔹 Ajoute l’article au contexte
+
     message.success("Clothing item was created successfully");
 
-    // Rediriger vers la liste des vêtements
-    navigate("/dresing");
+    navigate("/dresing"); // 🔹 Redirige vers la liste des vêtements
   };
 
   const onFinishFailed = (errorInfo) => {

@@ -1,13 +1,13 @@
 import { Layout, Image } from "antd";
 import SideMenu from "./components/SideMenu";
 import AppRoutes from "./components/AppRoutes";
-import BoutiqueContextProvider from "./contexts/BoutiqueContext"; // 🔥 Ajout du contexte pour gérer la boutique
+import BoutiqueContextProvider from "./contexts/BoutiqueContext";
 
 const { Sider, Content, Footer } = Layout;
 
 function App() {
   return (
-    <BoutiqueContextProvider> {/* 🔥 Ajout du contexte */}
+    <BoutiqueContextProvider> 
       <Layout>
         {/* Barre latérale */}
         <Sider style={{ height: "100vh", backgroundColor: "white" }}>
@@ -20,7 +20,7 @@ function App() {
 
         {/* Contenu principal */}
         <Layout>
-          <Content style={{ padding: 20 }}>  {/* Ajout de padding pour plus de lisibilité */}
+          <Content style={{ padding: 20 }}>  
             <AppRoutes />
           </Content>
 

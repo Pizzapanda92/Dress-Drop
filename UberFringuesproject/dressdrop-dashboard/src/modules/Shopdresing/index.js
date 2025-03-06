@@ -1,14 +1,13 @@
-import { Card, Table, Button, Popconfirm } from 'antd';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import dishesData from '../../assets/data/dishes.json'; // À remplacer plus tard par une base de données
+import { Card, Table, Button, Popconfirm } from "antd";
+import { Link } from "react-router-dom";
+import { useBoutiqueContext } from "../../contexts/BoutiqueContext"; // 🔹 Import du contexte
 
 const Shopdresing = () => {
-    const [dishes, setDishes] = useState(dishesData);
+    const { clothingItems, setClothingItems } = useBoutiqueContext(); // 🔹 Récupère les vêtements depuis le contexte
 
     // Fonction pour supprimer un vêtement
     const deleteItem = (item) => {
-        setDishes(dishes.filter((d) => d.id !== item.id));
+        setClothingItems(clothingItems.filter((d) => d.id !== item.id));
     };
 
     const tableColumns = [
@@ -21,7 +20,7 @@ const Shopdresing = () => {
             title: "Price",
             dataIndex: "price",
             key: "price",
-            render: (price) => `${price} €`
+            render: (price) => `${price} €`,
         },
         {
             title: "Actions",
@@ -39,13 +38,13 @@ const Shopdresing = () => {
                         <Button danger>Supprimer</Button>
                     </Popconfirm>
                 </>
-            )
+            ),
         },
     ];
 
     // Bouton pour créer un nouvel article
     const renderNewItemButton = () => (
-        <Link to={'/create-item'}>
+        <Link to={'/dresing/create'}>
             <Button type="primary">New Item</Button>
         </Link>
     );
@@ -56,9 +55,10 @@ const Shopdresing = () => {
             style={{ margin: 20 }} 
             extra={renderNewItemButton()}
         >
-            <Table dataSource={dishes} columns={tableColumns} rowKey="id" />
+            <Table dataSource={clothingItems} columns={tableColumns} rowKey="id" />
         </Card>
     );
 };
 
 export default Shopdresing;
+
