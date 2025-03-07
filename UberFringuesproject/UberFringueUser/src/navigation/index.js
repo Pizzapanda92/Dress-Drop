@@ -8,8 +8,9 @@ import BoutiqueDetailsScreen from "../screens/BoutiqueDetailsScreen";
 import DressDetailsScreen from "../screens/DressDetailScreen";
 import Basket from "../screens/Basket";
 import OrderSummaryScreen from "../screens/OrderSummaryScreen";
-import OrdersScreen from "../screens/OrdersScreen";
+import ProfilScreen from "../screens/ProfilScreen";
 import OrderDetails from "../screens/OrderDetails";
+import LoadingScreen from "../screens/LoadingScreen";
 import { Foundation, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
@@ -59,7 +60,7 @@ const HomeTabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={OrdersScreen}
+        component={ProfilScreen}
         options={{
           tabBarIcon: ({ color }) => <FontAwesome5 name="user-alt" size={24} color={color} />,
           title: "Profil",
@@ -81,10 +82,10 @@ const HomeStackNavigator = () => {
       <HomeStack.Screen name="DressDetails" component={DressDetailsScreen} />
       <HomeStack.Screen name="Basket" component={Basket} />
       <HomeStack.Screen name="OrderSummary" component={OrderSummaryScreen} />
+      <HomeStack.Screen name="LoadingScreen" component={LoadingScreen} options={{ headerShown: false }} /> 
     </HomeStack.Navigator>
   );
 };
-
 /**
  * ✅ Stack de navigation pour les commandes
  */
@@ -92,7 +93,7 @@ const OrdersStack = createNativeStackNavigator();
 const OrderStackNavigator = () => {
   return (
     <OrdersStack.Navigator>
-      <OrdersStack.Screen name="Orders" component={OrdersScreen} />
+      <OrdersStack.Screen name="Orders" component={ProfilScreen} />
       <OrdersStack.Screen name="OrderDetails" component={OrderDetails} />
     </OrdersStack.Navigator>
   );
