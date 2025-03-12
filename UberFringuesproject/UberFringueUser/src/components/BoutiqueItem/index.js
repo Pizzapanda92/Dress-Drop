@@ -5,14 +5,13 @@ import { API_URL } from "@env";
 const BoutiqueItem = ({ boutique }) => {
   const navigation = useNavigation();
 
-  // Vérifier si l'image commence par "http" et ajuster l'URL si nécessaire
   const fullImageUrl = boutique.image.startsWith("http")
     ? boutique.image
     : `${API_URL}${boutique.image}`;
 
   const onPress = () => {
-    console.log("ID de la boutique sélectionnée :", boutique._id); // Utilisez _id si c'est le cas
-    navigation.navigate("BoutiqueDetails", { id: boutique._id }); // Passez l'ID de la boutique
+    console.log("ID de la boutique sélectionnée :", boutique._id);
+    navigation.navigate("BoutiqueDetails", { id: boutique._id });
   };
 
   return (

@@ -1,21 +1,20 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { API_URL } from "@env"; // Assurez-vous d'avoir l'URL de votre backend
+import { API_URL } from "@env";
 
 const DressListItem = ({ dish }) => {
   const navigation = useNavigation();
 
-  // Vérification et création du lien complet de l'image
   const imageUrl = dish.images?.length > 0
-    ? `${API_URL}${dish.images[0]}` // ✅ Construit l'URL complète
-    : "https://via.placeholder.com/150"; // Image par défaut si pas d'image
+    ? `${API_URL}${dish.images[0]}`
+    : "https://via.placeholder.com/150";
 
   return (
 <Pressable
   onPress={() => {
     console.log("NAVIGATION VERS DressDetails :", dish._id);
-    navigation.navigate("DressDetails", { id: dish._id }); // ✅ Correction ici
+    navigation.navigate("DressDetails", { id: dish._id });
   }}
   style={styles.container}
 >
@@ -27,7 +26,6 @@ const DressListItem = ({ dish }) => {
         </Text>
         <Text style={styles.price}>$ {dish.price}</Text>
       </View>
-      {/* ✅ Affichage de l'image */}
       <Image
         source={{ uri: imageUrl }}
         style={styles.image}

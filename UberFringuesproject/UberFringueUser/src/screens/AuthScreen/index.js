@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from "reac
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { API_URL } from "@env";
-import { AuthContext } from "../../context/AuthContext"; // Contexte Auth
+import { AuthContext } from "../../context/AuthContext";
 
 const AuthScreen = ({ navigation }) => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -11,44 +11,40 @@ const AuthScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [pseudo, setPseudo] = useState("");
   const [role, setRole] = useState("buyer");
-
-  // Champs pour l'adresse
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [country, setCountry] = useState("");
 
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   const handleAuth = async () => {
     try {
       const payload = isSignUp
         ? { pseudo, email, password, role, address: { street, city, postalCode, country } }
         : { email, password };
-  
-      console.log("📡 Données envoyées :", JSON.stringify(payload, null, 2)); // DEBUG : Affiche les données envoyées
-  
+
+      console.log("🔍 Données envoyées :", payload);
+
       const url = isSignUp ? `${API_URL}/user/register` : `${API_URL}/user/login`;
       const response = await axios.post(url, payload);
-  
-      if (isSignUp) {
-        Alert.alert("Succès", "Inscription réussie, connectez-vous !");
-        setIsSignUp(false);
+
+      console.log("🔹 Réponse API :", response.data);
+
+      if (!isSignUp && response.data.token && response.data.userId) {
+        console.log("Connexion réussie !");
+        await AsyncStorage.setItem("token", response.data.token);
+        await AsyncStorage.setItem("userId", response.data.userId);
+        login(response.data.token, response.data.userId);
+        navigation.replace("Home");
       } else {
-        if (response.data.token) {
-          await AsyncStorage.setItem("token", response.data.token);
-          setIsAuthenticated(true);
-          navigation.replace("Home");
-        } else {
-          Alert.alert("Erreur", "Aucun token reçu. Vérifiez votre backend.");
-        }
+        Alert.alert("Erreur", "Aucun token ou ID utilisateur reçu. Vérifiez votre backend.");
       }
     } catch (error) {
-      console.error("❌ Erreur d'inscription :", error.response?.data || error.message);
+      console.error("Erreur d'authentification :", error.response?.data || error.message);
       Alert.alert("Erreur", error.response?.data?.message || "Une erreur est survenue.");
     }
   };
-  
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20, justifyContent: "center" }}>
@@ -60,8 +56,6 @@ const AuthScreen = ({ navigation }) => {
         <>
           <TextInput placeholder="Pseudo" value={pseudo} onChangeText={setPseudo} style={styles.input} />
           <TextInput placeholder="Rôle (buyer, seller, delivery)" value={role} onChangeText={setRole} style={styles.input} />
-
-          {/* Ajout des champs d'adresse */}
           <TextInput placeholder="Rue" value={street} onChangeText={setStreet} style={styles.input} />
           <TextInput placeholder="Ville" value={city} onChangeText={setCity} style={styles.input} />
           <TextInput placeholder="Code Postal" value={postalCode} onChangeText={setPostalCode} keyboardType="numeric" style={styles.input} />

@@ -24,7 +24,7 @@ const BoutiqueDetailsScreen = () => {
 
     const fetchDetails = async () => {
       try {
-        console.log("📡 Requête envoyée à :", `${API_URL}/shops/${boutiqueId}`);
+        console.log("Requête envoyée à :", `${API_URL}/shops/${boutiqueId}`);
 
         const boutiqueResponse = await axios.get(`${API_URL}/shops/${boutiqueId}`);
         setBoutique(boutiqueResponse.data);
@@ -32,7 +32,7 @@ const BoutiqueDetailsScreen = () => {
         const clothesResponse = await axios.get(`${API_URL}/clothes/${boutiqueId}`);
         setClothes(clothesResponse.data);
       } catch (error) {
-        console.error("❌ Erreur API :", error.response?.data || error.message);
+        console.error("Erreur API :", error.response?.data || error.message);
         setError("Erreur lors du chargement des données.");
       } finally {
         setLoading(false);
@@ -59,7 +59,7 @@ const BoutiqueDetailsScreen = () => {
 <FlatList
   ListHeaderComponent={() => <BoutiqueHeader boutique={boutique} />}
   data={clothes}
-  renderItem={({ item }) => <DressListItem dish={item} />} // ✅ Vérifie que c'est bien `dress={item}`
+  renderItem={({ item }) => <DressListItem dish={item} />}
   keyExtractor={(item) => item._id.toString()}
 />
 

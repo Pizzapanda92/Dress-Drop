@@ -24,6 +24,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-video",
+        {
+          "permissions": {
+            "audio": true,
+            "video": true
+          }
+        }
+      ]
+    ]
   }
 }

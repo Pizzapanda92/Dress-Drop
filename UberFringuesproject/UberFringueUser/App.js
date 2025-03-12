@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native"; // ✅ Ajouté ici
+import { View, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthProvider } from "./src/context/AuthContext";
-import { CartProvider } from "./src/context/CartContext"; 
-import { NavigationContainer } from "@react-navigation/native"; 
+import { CartProvider } from "./src/context/CartContext";
+import { NavigationContainer } from "@react-navigation/native";
+import { StripeProvider } from "@stripe/stripe-react-native";
 import RootNavigator from "./src/navigation/index";
 
 const App = () => {
@@ -29,7 +30,9 @@ const App = () => {
     <AuthProvider>
       <CartProvider>
         <NavigationContainer>
-          <RootNavigator />
+          <StripeProvider>
+            <RootNavigator />
+          </StripeProvider>
         </NavigationContainer>
       </CartProvider>
     </AuthProvider>
@@ -37,3 +40,4 @@ const App = () => {
 };
 
 export default App;
+

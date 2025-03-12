@@ -7,18 +7,16 @@ import HomeScreen from "../screens/HomeScreen";
 import BoutiqueDetailsScreen from "../screens/BoutiqueDetailsScreen";
 import DressDetailsScreen from "../screens/DressDetailScreen";
 import Basket from "../screens/Basket";
-import OrderSummaryScreen from "../screens/OrderSummaryScreen";
 import ProfilScreen from "../screens/ProfilScreen";
 import OrderDetails from "../screens/OrderDetails";
 import LoadingScreen from "../screens/LoadingScreen";
+import OrderHistoryScreen from "../screens/OrderHistoryScreen";
+import PaymentScreen from "../screens/PaymentScreen";
 import { Foundation, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
-/**
- * ✅ RootNavigator - Gère la connexion et redirige l'utilisateur
- */
 const RootNavigator = () => {
   const { isAuthenticated } = useContext(AuthContext);
 
@@ -33,9 +31,6 @@ const RootNavigator = () => {
   );
 };
 
-/**
- * ✅ Onglets de navigation principale
- */
 const HomeTabs = () => {
   return (
     <Tab.Navigator
@@ -70,9 +65,6 @@ const HomeTabs = () => {
   );
 };
 
-/**
- * ✅ Stack de navigation pour Home
- */
 const HomeStack = createNativeStackNavigator();
 const HomeStackNavigator = () => {
   return (
@@ -81,21 +73,19 @@ const HomeStackNavigator = () => {
       <HomeStack.Screen name="BoutiqueDetails" component={BoutiqueDetailsScreen} />
       <HomeStack.Screen name="DressDetails" component={DressDetailsScreen} />
       <HomeStack.Screen name="Basket" component={Basket} />
-      <HomeStack.Screen name="OrderSummary" component={OrderSummaryScreen} />
+      <HomeStack.Screen name="Payment" component={PaymentScreen} />
       <HomeStack.Screen name="LoadingScreen" component={LoadingScreen} options={{ headerShown: false }} /> 
     </HomeStack.Navigator>
   );
 };
-/**
- * ✅ Stack de navigation pour les commandes
- */
+
 const OrdersStack = createNativeStackNavigator();
 const OrderStackNavigator = () => {
   return (
-    <OrdersStack.Navigator>
-      <OrdersStack.Screen name="Orders" component={ProfilScreen} />
-      <OrdersStack.Screen name="OrderDetails" component={OrderDetails} />
-    </OrdersStack.Navigator>
+<OrdersStack.Navigator screenOptions={{ headerShown: false }}>
+  <OrdersStack.Screen name="OrderHistory" component={OrderHistoryScreen} />
+  <OrdersStack.Screen name="OrderDetails" component={OrderDetails} />
+</OrdersStack.Navigator>
   );
 };
 
