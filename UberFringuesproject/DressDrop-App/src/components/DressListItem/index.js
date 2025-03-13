@@ -1,19 +1,24 @@
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import React from "react";
+import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { API_URL } from "@env";
 
-const DishListItem = ({ dish }) => {
+const DressListItem = ({ dish }) => {
   const navigation = useNavigation();
 
-  console.log("DISH CLIQUÉ:", dish); 
+  const imageUrl = dish.images?.length > 0
+    ? `${API_URL}${dish.images[0]}`
+    : "https://via.placeholder.com/150";
 
   return (
-    <Pressable
-      onPress={() => {
-        console.log("NAVIGATION VERS Dish:", dish.id); 
-        navigation.navigate("Dish", { id: dish.id });
-      }}
-      style={styles.container}
-    >
+<Pressable
+  onPress={() => {
+    console.log("NAVIGATION VERS DressDetails :", dish._id);
+    navigation.navigate("DressDetails", { id: dish._id });
+  }}
+  style={styles.container}
+>
+
       <View style={{ flex: 1 }}>
         <Text style={styles.name}>{dish.name}</Text>
         <Text style={styles.description} numberOfLines={2}>
@@ -21,7 +26,11 @@ const DishListItem = ({ dish }) => {
         </Text>
         <Text style={styles.price}>$ {dish.price}</Text>
       </View>
-      {dish.image && <Image source={{ uri: dish.image }} style={styles.image} />}
+      <Image
+        source={{ uri: imageUrl }}
+        style={styles.image}
+        onError={() => console.log("Erreur de chargement de l'image :", imageUrl)}
+      />
     </Pressable>
   );
 };
@@ -34,6 +43,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgrey",
     borderBottomWidth: 1,
     flexDirection: "row",
+    alignItems: "center",
   },
   name: {
     fontWeight: "600",
@@ -48,8 +58,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   image: {
+    width: 75,
     height: 75,
-    aspectRatio: 1,
+    borderRadius: 10,
+    marginLeft: 10,
   },
 });
-export default DishListItem;
+
+export default DressListItem;
