@@ -3,28 +3,28 @@ import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { API_URL } from "@env";
 
-const DressListItem = ({ dish }) => {
+const DressListItem = ({ Dress }) => {
   const navigation = useNavigation();
 
-  const imageUrl = dish.images?.length > 0
-    ? `${API_URL}${dish.images[0]}`
+  const imageUrl = Dress.images?.length > 0
+    ? `${API_URL}${Dress.images[0]}`
     : "https://via.placeholder.com/150";
 
   return (
 <Pressable
   onPress={() => {
-    console.log("NAVIGATION VERS DressDetails :", dish._id);
-    navigation.navigate("DressDetails", { id: dish._id });
+    console.log("NAVIGATION VERS DressDetails :", Dress._id);
+    navigation.navigate("DressDetails", { id: Dress._id });
   }}
   style={styles.container}
 >
 
       <View style={{ flex: 1 }}>
-        <Text style={styles.name}>{dish.name}</Text>
+        <Text style={styles.name}>{Dress.name}</Text>
         <Text style={styles.description} numberOfLines={2}>
-          {dish.description}
+          {Dress.description}
         </Text>
-        <Text style={styles.price}>$ {dish.price}</Text>
+        <Text style={styles.price}>$ {Dress.price}</Text>
       </View>
       <Image
         source={{ uri: imageUrl }}
