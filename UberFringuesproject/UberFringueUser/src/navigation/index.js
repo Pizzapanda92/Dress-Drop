@@ -8,7 +8,7 @@ import BoutiqueDetailsScreen from "../screens/BoutiqueDetailsScreen";
 import DressDetailsScreen from "../screens/DressDetailScreen";
 import Basket from "../screens/Basket";
 import ProfilScreen from "../screens/ProfilScreen";
-import OrderDetails from "../screens/OrderDetails";
+import EditProfileScreen from "../screens/EditProfilScreen"; // Ajouté
 import LoadingScreen from "../screens/LoadingScreen";
 import OrderHistoryScreen from "../screens/OrderHistoryScreen";
 import PaymentScreen from "../screens/PaymentScreen";
@@ -54,8 +54,8 @@ const HomeTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={ProfilScreen}
+        name="ProfileStack"
+        component={ProfileStackNavigator} // Utilisation du stack pour le profil
         options={{
           tabBarIcon: ({ color }) => <FontAwesome5 name="user-alt" size={24} color={color} />,
           title: "Profil",
@@ -82,10 +82,20 @@ const HomeStackNavigator = () => {
 const OrdersStack = createNativeStackNavigator();
 const OrderStackNavigator = () => {
   return (
-<OrdersStack.Navigator screenOptions={{ headerShown: false }}>
-  <OrdersStack.Screen name="OrderHistory" component={OrderHistoryScreen} />
-  <OrdersStack.Screen name="OrderDetails" component={OrderDetails} />
-</OrdersStack.Navigator>
+    <OrdersStack.Navigator screenOptions={{ headerShown: false }}>
+      <OrdersStack.Screen name="OrderHistory" component={OrderHistoryScreen} />
+    </OrdersStack.Navigator>
+  );
+};
+
+// 🚀 Nouveau stack pour la navigation du profil
+const ProfileStack = createNativeStackNavigator();
+const ProfileStackNavigator = () => {
+  return (
+    <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
+      <ProfileStack.Screen name="Profile" component={ProfilScreen} />
+      <ProfileStack.Screen name="EditProfile" component={EditProfileScreen} />
+    </ProfileStack.Navigator>
   );
 };
 

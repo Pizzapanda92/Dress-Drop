@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { API_URL } from "@env";
@@ -31,14 +31,19 @@ const AuthScreen = ({ navigation }) => {
 
       console.log("🔹 Réponse API :", response.data);
 
-      if (!isSignUp && response.data.token && response.data.userId) {
-        console.log("Connexion réussie !");
-        await AsyncStorage.setItem("token", response.data.token);
-        await AsyncStorage.setItem("userId", response.data.userId);
-        login(response.data.token, response.data.userId);
-        navigation.replace("Home");
+      if (isSignUp) {
+        Alert.alert("Inscription réussie", "Votre compte a été créé avec succès. Connectez-vous maintenant !");
+        setIsSignUp(false);
       } else {
-        Alert.alert("Erreur", "Aucun token ou ID utilisateur reçu. Vérifiez votre backend.");
+        if (response.data.token && response.data.userId) {
+          console.log("Connexion réussie !");
+          await AsyncStorage.setItem("token", response.data.token);
+          await AsyncStorage.setItem("userId", response.data.userId);
+          login(response.data.token, response.data.userId);
+          navigation.replace("Home");
+        } else {
+          Alert.alert("Erreur", "Aucun token ou ID utilisateur reçu. Vérifiez votre backend.");
+        }
       }
     } catch (error) {
       console.error("Erreur d'authentification :", error.response?.data || error.message);
@@ -71,7 +76,7 @@ const AuthScreen = ({ navigation }) => {
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => setIsSignUp(!isSignUp)}>
-        <Text style={{ color: "blue", textAlign: "center", marginTop: 10 }}>
+        <Text style={{ color: "#DAA520", textAlign: "center", marginTop: 10, fontWeight: "bold" }}>
           {isSignUp ? "Déjà un compte ? Se connecter" : "Pas encore inscrit ? Créer un compte"}
         </Text>
       </TouchableOpacity>
@@ -89,7 +94,7 @@ const styles = {
     marginBottom: 10,
   },
   button: {
-    backgroundColor: "blue",
+    backgroundColor: "#DAA520", // ✅ Changement de couleur pour correspondre à ProfileScreen
     padding: 15,
     borderRadius: 8,
     alignItems: "center",
