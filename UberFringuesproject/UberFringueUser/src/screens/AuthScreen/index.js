@@ -24,12 +24,12 @@ const AuthScreen = ({ navigation }) => {
         ? { pseudo, email, password, role, address: { street, city, postalCode, country } }
         : { email, password };
 
-      console.log("🔍 Données envoyées :", payload);
+      console.log("Données envoyées :", payload);
 
       const url = isSignUp ? `${API_URL}/user/register` : `${API_URL}/user/login`;
       const response = await axios.post(url, payload);
 
-      console.log("🔹 Réponse API :", response.data);
+      console.log("Réponse API :", response.data);
 
       if (isSignUp) {
         Alert.alert("Inscription réussie", "Votre compte a été créé avec succès. Connectez-vous maintenant !");
@@ -94,7 +94,7 @@ const styles = {
     marginBottom: 10,
   },
   button: {
-    backgroundColor: "#DAA520", // ✅ Changement de couleur pour correspondre à ProfileScreen
+    backgroundColor: "#DAA520",
     padding: 15,
     borderRadius: 8,
     alignItems: "center",

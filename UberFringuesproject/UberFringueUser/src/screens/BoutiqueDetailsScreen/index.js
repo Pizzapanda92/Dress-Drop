@@ -27,6 +27,8 @@ const BoutiqueDetailsScreen = () => {
         console.log("Requête envoyée à :", `${API_URL}/shops/${boutiqueId}`);
 
         const boutiqueResponse = await axios.get(`${API_URL}/shops/${boutiqueId}`);
+        console.log("Données boutique reçues :", boutiqueResponse.data);
+
         setBoutique(boutiqueResponse.data);
 
         const clothesResponse = await axios.get(`${API_URL}/clothes/${boutiqueId}`);
@@ -56,13 +58,12 @@ const BoutiqueDetailsScreen = () => {
 
   return (
     <View style={styles.page}>
-<FlatList
-  ListHeaderComponent={() => <BoutiqueHeader boutique={boutique} />}
-  data={clothes}
-  renderItem={({ item }) => <DressListItem dish={item} />}
-  keyExtractor={(item) => item._id.toString()}
-/>
-
+      <FlatList
+        ListHeaderComponent={() => <BoutiqueHeader boutique={boutique} />}
+        data={clothes}
+        renderItem={({ item }) => <DressListItem dish={item} />}
+        keyExtractor={(item) => item._id.toString()}
+      />
     </View>
   );
 };

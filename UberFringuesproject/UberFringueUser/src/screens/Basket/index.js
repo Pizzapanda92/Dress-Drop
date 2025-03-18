@@ -21,8 +21,6 @@ const BasketScreen = () => {
     );
   };
 
-  
-
   const handlePlaceOrder = async () => {
     if (cart.length === 0) {
       Alert.alert("Panier vide", "Ajoutez des articles avant de commander !");
@@ -31,11 +29,12 @@ const BasketScreen = () => {
 
     setLoading(true);
     try {
-      const orderResponse = await placeOrder();
+      const orderResponse = await placeOrder(); // Assurez-vous que placeOrder est bien défini dans votre contexte
+      const estimatedTime = orderResponse?.estimatedTime ?? "Non disponible";
       setLoading(false);
       Alert.alert(
         "Commande réussie",
-        `Votre commande est en cours de préparation. Temps estimé: ${orderResponse.order.estimatedTime} min.`,
+        `Votre commande est en cours de préparation. Temps estimé: ${estimatedTime} min.`,
         [{ text: "OK", onPress: () => navigation.navigate("LoadingScreen") }]
       );
     } catch (error) {
@@ -175,4 +174,3 @@ const styles = StyleSheet.create({
 });
 
 export default BasketScreen;
-

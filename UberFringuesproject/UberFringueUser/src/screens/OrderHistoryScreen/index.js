@@ -1,40 +1,42 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import { View, Text, FlatList, StyleSheet, ActivityIndicator, Image } from "react-native";
 import axios from "axios";
 import { API_URL } from "@env";
 import { AuthContext } from "../../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Feather } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 
 const OrderHistoryScreen = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const userId = await AsyncStorage.getItem("userId");
-        if (!userId) throw new Error("Utilisateur non trouvé !");
+  const fetchOrders = async () => {
+    try {
+      const userId = await AsyncStorage.getItem("userId");
+      if (!userId) throw new Error("Utilisateur non trouvé !");
 
-        console.log("Récupération des commandes pour userId :", userId);
-        const response = await axios.get(`${API_URL}/order/user/${userId}`);
+      console.log("Récupération des commandes pour userId :", userId);
+      const response = await axios.get(`${API_URL}/order/user/${userId}`);
 
-        if (!response.data) {
-          throw new Error("Aucune commande trouvée !");
-        }
-
-        console.log("Commandes récupérées :", response.data);
-        setOrders(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des commandes :", error);
-      } finally {
-        setLoading(false);
+      if (!response.data) {
+        throw new Error("Aucune commande trouvée !");
       }
-    };
 
-    fetchOrders();
-  }, []);
+      console.log("Commandes récupérées :", response.data);
+      setOrders(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des commandes :", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useFocusEffect(
+    useCallback(() => {
+      fetchOrders();
+    }, [])
+  );
 
   if (loading) {
     return (

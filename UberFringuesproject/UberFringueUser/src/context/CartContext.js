@@ -86,7 +86,7 @@ export const CartProvider = ({ children }) => {
 
       const productId = typeof product.productId === "object" ? product.productId._id : product.productId;
   
-      console.log(`📤 Suppression du produit ${productId} du panier ${cartId}`);
+      console.log(`Suppression du produit ${productId} du panier ${cartId}`);
   
       const response = await axios.delete(`${API_URL}/cart/remove/${cartId}`, {
         data: { productId }
@@ -109,22 +109,19 @@ export const CartProvider = ({ children }) => {
   
       console.log("Vidage du panier :", cartId);
   
-      const cart = await CartModel.findById(cartId);
-      if (!cart) {
-        console.error("Erreur : Panier introuvable !");
-        return;
-      }
-      cart.items = [];
-      cart.totalPrice = 0;
-      await cart.save();
+      await axios.delete(`${API_URL}/cart/clear/${cartId}`);
   
-      console.log("anier vidé !");
-      res.status(200).json({ message: "Panier vidé avec succès", cart });
+
+      setCart([]);
+      setCartId(null);
+      setTotalPrice(0);
+  
+      console.log("Panier vidé !");
     } catch (error) {
       console.error("Erreur lors du vidage du panier :", error);
-      res.status(500).json({ message: "Erreur serveur", error });
     }
   };
+  
 
   const placeOrder = async () => {
     try {

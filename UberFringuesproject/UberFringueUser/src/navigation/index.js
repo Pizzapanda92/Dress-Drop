@@ -55,7 +55,7 @@ const HomeTabs = () => {
       />
       <Tab.Screen
         name="ProfileStack"
-        component={ProfileStackNavigator} // Utilisation du stack pour le profil
+        component={ProfileStackNavigator}
         options={{
           tabBarIcon: ({ color }) => <FontAwesome5 name="user-alt" size={24} color={color} />,
           title: "Profil",
@@ -88,7 +88,6 @@ const OrderStackNavigator = () => {
   );
 };
 
-// 🚀 Nouveau stack pour la navigation du profil
 const ProfileStack = createNativeStackNavigator();
 const ProfileStackNavigator = () => {
   return (
