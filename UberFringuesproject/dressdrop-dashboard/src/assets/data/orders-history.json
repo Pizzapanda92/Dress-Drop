@@ -1,0 +1,21 @@
+[
+  {
+    "orderID": "F8762",
+    "price": 33.99,
+    "deliveryAddress": "12 Rue de la Paix, 75002 Paris",
+    "status": "Delivered"
+  },
+  {
+    "orderID": "A9245",
+    "price": 94.35,
+    "deliveryAddress": "81 Avenue des Champs-Élysées, 75008 Paris",
+    "status": "Delivered"
+  },
+  {
+    "orderID": "Y7902",
+    "price": 6.99,
+    "deliveryAddress": "8 Boulevard Haussmann, 75009 Paris",
+    "status": "Declined"
+  }
+  ]
+  

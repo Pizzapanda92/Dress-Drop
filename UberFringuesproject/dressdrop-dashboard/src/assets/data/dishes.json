@@ -1,0 +1,20 @@
+[
+    {
+        "id": "1",
+        "name": "T-shirt Oversize",
+        "price": 19.99,
+        "quantity": 10
+    },
+    {
+        "id": "2",
+        "name": "Jean Slim Fit",
+        "price": 39.99,
+        "quantity": 5
+    },
+    {
+        "id": "3",
+        "name": "Sweat à Capuche",
+        "price": 49.99,
+        "quantity": 7
+    }
+]
