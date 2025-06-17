@@ -25,7 +25,7 @@ const Login = () => {
       await login(token, userId);
 
       message.success("Connexion réussie !");
-      navigate("/order-history");
+      navigate("/orders");
     } catch (error) {
       console.error("Erreur connexion :", error);
       message.error(error.response?.data?.message || "Erreur lors de la connexion.");
@@ -50,7 +50,6 @@ const Login = () => {
 
   return (
     <div style={{ position: "relative", height: "100vh", overflow: "hidden" }}>
-      {/* Vidéo en arrière-plan */}
       <video
         autoPlay
         muted
@@ -69,7 +68,6 @@ const Login = () => {
         Votre navigateur ne supporte pas la balise vidéo.
       </video>
 
-      {/* Contenu centré */}
       <div
         style={{
           height: "100%",

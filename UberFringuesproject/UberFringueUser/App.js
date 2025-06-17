@@ -6,6 +6,8 @@ import { CartProvider } from "./src/context/CartContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import RootNavigator from "./src/navigation/index";
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs(); 
 
 const App = () => {
   const [loading, setLoading] = useState(true);

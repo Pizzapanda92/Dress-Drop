@@ -21,24 +21,24 @@ import RevenueChart from "../../modules/Dashboard/RevenueChart"
 const AppRoutes = () => {
   const { isAuthenticated, loading } = useAuth();
 
-  if (loading) return null; // ou <Spin />
+  if (loading) return null;
 
   return (
     <Routes>
       {!isAuthenticated ? (
-        // 🔓 Routes publiques
+        // Routes publiques
         <Route element={<AuthLayout />}>
           <Route path="*" element={<Login />} />
         </Route>
       ) : (
-        // 🔒 Routes privées
+        // Routes privées
         <Route element={<AppLayout />}>
-           <Route path="/" element={<Navigate to="/orders" />} /> {/* 👈 redirection pour l'accueil */}
+           <Route path="/" element={<Navigate to="/orders" />} />
           <Route path="/orders" element={<ShopsList />} />
           <Route path="/orders/shop/:shopId" element={<OrderHistoryByShop />} />
           <Route path="/shops" element={<MyShops />} />
           <Route path="/shops/create" element={<CreateShop />} />
-          <Route path="/shops/:id" element={<ShopDetails />} /> {/* 👈 Route dynamique */}
+          <Route path="/shops/:id" element={<ShopDetails />} /> 
           <Route path="/shops/:id/edit" element={<EditShop />} />
           <Route path="/orders/:id" element={<OrderDetails />} />
           <Route path="/shop-clothes" element={<ShopClothes />} />

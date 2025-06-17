@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   disabledButton: {
-    backgroundColor: "#A5D6A7", // Couleur différente pour le bouton désactivé
+    backgroundColor: "#A5D6A7",
   },
   saveButtonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 });

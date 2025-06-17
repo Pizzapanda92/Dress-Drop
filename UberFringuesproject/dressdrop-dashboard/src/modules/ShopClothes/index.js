@@ -1,122 +1,101 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import {
-  Card,
-  List,
-  Image,
-  Typography,
-  Spin,
-  message,
-  Button,
-  Divider,
-} from "antd";
+import { Card, Typography, Row, Col, Button, message } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 
 const ShopClothes = () => {
-  const [groupedClothes, setGroupedClothes] = useState({});
-  const [shopNames, setShopNames] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [groupedClothes, setGroupedClothes] = useState([]);
   const navigate = useNavigate();
 
-  const fetchClothes = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/clothes");
-      const data = res.data;
+  useEffect(() => {
+    const fetchMyShopsAndClothes = async () => {
+      try {
+        const token = localStorage.getItem("token");
 
-      const grouped = {};
-      const shopsToFetch = new Set();
+        const res = await axios.get("http://localhost:5000/shops/mine", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-      for (let item of data) {
-        const shopId = item.shopId;
-        if (!grouped[shopId]) grouped[shopId] = [];
-        grouped[shopId].push(item);
-        shopsToFetch.add(shopId);
+        const userShops = res.data;
+
+        const clothesData = await Promise.all(
+          userShops.map(async (shop) => {
+            const clothesRes = await axios.get(
+              `http://localhost:5000/shops/${shop._id}/clothes`
+            );
+            return {
+              shop,
+              clothes: clothesRes.data,
+            };
+          })
+        );
+
+        setGroupedClothes(clothesData);
+      } catch (err) {
+        console.error("Erreur récupération vêtements :", err);
+        message.error("Erreur lors du chargement des vêtements.");
       }
+    };
 
-      setGroupedClothes(grouped);
+    fetchMyShopsAndClothes();
+  }, []);
 
-      const shopResponses = await Promise.all(
-        Array.from(shopsToFetch).map((id) =>
-          axios.get(`http://localhost:5000/shops/${id}`).catch(() => null)
-        )
-      );
-
-      const names = {};
-      for (let res of shopResponses) {
-        if (res?.data?._id && res.data.name) {
-          names[res.data._id] = res.data.name;
-        }
-      }
-      setShopNames(names);
-    } catch (err) {
-      console.error("Erreur lors du fetch :", err);
-      message.error("Impossible de récupérer les vêtements.");
-    } finally {
-      setLoading(false);
-    }
+  const handleEdit = (id) => {
+    navigate(`/clothes/edit/${id}`);
   };
 
   const handleDelete = async (id) => {
     try {
+      const token = localStorage.getItem("token");
+
       await axios.delete(`http://localhost:5000/clothes/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
+
       message.success("Vêtement supprimé !");
-      fetchClothes();
+      window.location.reload();
     } catch (err) {
-      message.error("Erreur suppression !");
+      console.error("Erreur suppression :", err);
+      message.error("Erreur lors de la suppression.");
     }
   };
 
-  useEffect(() => {
-    fetchClothes();
-  }, []);
-
-  if (loading) return <Spin tip="Chargement..." style={{ margin: 50 }} />;
-
   return (
-    <div style={{ padding: "20px" }}>
-      <Title level={2}>Vêtements par boutique</Title>
+    <div style={{ padding: 24 }}>
+      <Title level={3}>Vêtements par boutique</Title>
 
-      {Object.entries(groupedClothes).map(([shopId, items]) => (
-        <div key={shopId} style={{ marginBottom: 40 }}>
-          <Divider orientation="left">
-            Boutique : <strong>{shopNames[shopId] || shopId}</strong>
-          </Divider>
-
-          <List
-            grid={{ gutter: 16, column: 3 }}
-            dataSource={items}
-            renderItem={(item) => (
-              <List.Item>
+      {groupedClothes.map(({ shop, clothes }) => (
+        <div key={shop._id} style={{ marginBottom: 40 }}>
+          <Title level={5}>Boutique : {shop.name}</Title>
+          <Row gutter={[16, 16]}>
+            {clothes.map((item) => (
+              <Col span={8} key={item._id}>
                 <Card
                   hoverable
                   cover={
-                    <Image
-                      src={
-                        item.images[0]?.startsWith("http")
-                          ? item.images[0]
-                          : `http://localhost:5000${item.images[0]}`
-                      }
+                    <img
                       alt={item.name}
-                      fallback="/images/no-image.png"
-                      style={{ height: 180, objectFit: "cover" }}
+                      src={
+                        item.images?.[0]?.startsWith("/uploads")
+                          ? `http://localhost:5000${item.images[0]}`
+                          : item.images?.[0]
+                      }
+                      style={{ height: 200, objectFit: "cover" }}
                     />
                   }
                   actions={[
                     <Button
                       type="link"
                       icon={<EditOutlined />}
-                      onClick={() => navigate(`/clothes/edit/${item._id}`)}
+                      onClick={() => handleEdit(item._id)}
                     >
                       Modifier
                     </Button>,
                     <Button
+                      type="link"
                       danger
                       icon={<DeleteOutlined />}
                       onClick={() => handleDelete(item._id)}
@@ -125,18 +104,19 @@ const ShopClothes = () => {
                     </Button>,
                   ]}
                 >
-                  <Title level={5}>{item.name}</Title>
-                  <p>{item.price} €</p>
-                  <p>
-                    <strong>Tailles:</strong> {item.sizes.join(", ")}
-                  </p>
-                  <p>
-                    <strong>Couleurs:</strong> {item.colors.join(", ")}
-                  </p>
+                  <Card.Meta
+                    title={`${item.name} - ${item.price} €`}
+                    description={
+                      <>
+                        <p><strong>Tailles:</strong> {item.sizes?.join(", ")}</p>
+                        <p><strong>Couleurs:</strong> {item.colors?.join(", ")}</p>
+                      </>
+                    }
+                  />
                 </Card>
-              </List.Item>
-            )}
-          />
+              </Col>
+            ))}
+          </Row>
         </div>
       ))}
     </div>
@@ -144,3 +124,4 @@ const ShopClothes = () => {
 };
 
 export default ShopClothes;
+

@@ -42,10 +42,10 @@ const EditClothes = () => {
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+  
     const formData = new FormData();
     formData.append("image", file);
-
+  
     try {
       const res = await axios.post(
         "http://localhost:5000/clothes/upload-clothes-image",
@@ -57,13 +57,18 @@ const EditClothes = () => {
           },
         }
       );
-
-      const newImagePath = res.data.path;
+  
+      // 🔥 Vérifie que le backend renvoie bien `imageUrl`
+      const newImageUrl = res.data.imageUrl;
+  
       setInitialData((prev) => ({
         ...prev,
-        images: [newImagePath],
+        images: [newImageUrl],
       }));
-      form.setFieldsValue({ images: [newImagePath] });
+  
+      // Facultatif : si tu veux aussi remplir le champ form (utile si le form l'utilise)
+      form.setFieldsValue({ images: [newImageUrl] });
+  
       message.success("Image mise à jour !");
     } catch (err) {
       console.error(err);

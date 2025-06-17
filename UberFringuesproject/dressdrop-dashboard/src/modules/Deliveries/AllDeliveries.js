@@ -30,7 +30,8 @@ const AllDeliveries = () => {
 
   const fetchDeliveries = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/deliveries"); // <-- assure-toi que cette route existe (sinon on la fait !)
+      const res = await axios.get("http://localhost:5000/deliveries");
+      console.log("🚚 Livraisons récupérées :", res.data); // DEBUG
       setDeliveries(res.data);
       setFiltered(res.data);
     } catch (err) {
@@ -60,7 +61,12 @@ const AllDeliveries = () => {
       <Title level={2}>Suivi des livraisons</Title>
 
       <Divider />
-      <Select value={filterStatus} onChange={handleFilter} style={{ width: 200 }}>
+
+      <Select
+        value={filterStatus}
+        onChange={handleFilter}
+        style={{ width: 200 }}
+      >
         <Option value="all">Toutes</Option>
         <Option value="pending">En attente</Option>
         <Option value="in-progress">En cours</Option>
@@ -69,28 +75,42 @@ const AllDeliveries = () => {
       </Select>
 
       <Row gutter={[16, 16]} style={{ marginTop: 20 }}>
-        {filtered.map((delivery) => (
-          <Col span={8} key={delivery._id}>
-            <Card
-              title={`Commande: ${delivery.orderId}`}
-              extra={<Tag color={statusColors[delivery.status]}>{delivery.status}</Tag>}
-            >
-              <Paragraph>
-                <strong>Distance estimée:</strong> {delivery.estimatedDeliveryTime?.distanceInKm.toFixed(2)} km
-              </Paragraph>
-              <Paragraph>
-                <strong>Temps estimé:</strong> {Math.round(delivery.estimatedDeliveryTime?.timeInMinutes)} min
-              </Paragraph>
-
-              <Paragraph>
-                <strong>Adresse Boutique:</strong> {delivery.shopAddress?.street}, {delivery.shopAddress?.city}
-              </Paragraph>
-              <Paragraph>
-                <strong>Adresse Client:</strong> {delivery.userAddress?.street}, {delivery.userAddress?.city}
-              </Paragraph>
-            </Card>
+        {filtered.length === 0 ? (
+          <Col span={24}>
+            <Paragraph>Aucune livraison trouvée pour ce filtre.</Paragraph>
           </Col>
-        ))}
+        ) : (
+          filtered.map((delivery) => (
+            <Col span={8} key={delivery._id}>
+              <Card
+                title={`Commande : ${delivery.orderId?._id || "Inconnue"}`}
+                extra={
+                  <Tag color={statusColors[delivery.status] || "gray"}>
+                    {delivery.status}
+                  </Tag>
+                }
+              >
+                <Paragraph>
+                  <strong>Distance estimée :</strong>{" "}
+                  {delivery.estimatedDeliveryTime?.distanceInKm?.toFixed(2)} km
+                </Paragraph>
+                <Paragraph>
+                  <strong>Temps estimé :</strong>{" "}
+                  {Math.round(delivery.estimatedDeliveryTime?.timeInMinutes || 0)} min
+                </Paragraph>
+
+                <Paragraph>
+                  <strong>Adresse Boutique :</strong>{" "}
+                  {delivery.shopAddress?.street}, {delivery.shopAddress?.city}
+                </Paragraph>
+                <Paragraph>
+                  <strong>Adresse Client :</strong>{" "}
+                  {delivery.userAddress?.street}, {delivery.userAddress?.city}
+                </Paragraph>
+              </Card>
+            </Col>
+          ))
+        )}
       </Row>
     </div>
   );

@@ -11,9 +11,11 @@ const BasketScreen = () => {
   const [loading, setLoading] = useState(false);
 
   const handleRemoveItem = (item) => {
+    console.log("Données de l'article à supprimer :", item);
+  
     Alert.alert(
       "Supprimer l'article",
-      `Voulez-vous vraiment supprimer ${item.name} (${item.size}, ${item.color}) du panier ?`,
+      `Voulez-vous vraiment supprimer ${item.productId?.name ?? "Produit inconnu"} du panier ?`,
       [
         { text: "Annuler", style: "cancel" },
         { text: "Supprimer", onPress: () => removeFromCart(item), style: "destructive" },

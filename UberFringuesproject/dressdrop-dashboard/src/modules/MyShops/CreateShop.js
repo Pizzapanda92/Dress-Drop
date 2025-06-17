@@ -1,35 +1,47 @@
 import { useState } from "react";
-import { Form, Input, Button, Card, Typography, message } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Card,
+  Typography,
+  Upload,
+  message
+} from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 
 const CreateShop = () => {
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [imageFile, setImageFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
 
   const onFinish = async (values) => {
-    setLoading(true);
     const token = localStorage.getItem("token");
 
     try {
-      // Étape 1 : créer la boutique
-      const shopRes = await axios.post("http://localhost:5000/shops/shop", values, {
+      setLoading(true);
+
+      // Création de la boutique (sans image)
+      const res = await axios.post("http://localhost:5000/shops/shop", values, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      const shopId = shopRes.data._id || shopRes.data.shop?._id;
+      const shopId = res.data._id || res.data.shop?._id;
 
-      // Étape 2 : upload de l'image si sélectionnée
-      if (imageFile && shopId) {
+      // S’il y a une image, on l’upload ensuite
+      if (selectedImage && shopId) {
         const formData = new FormData();
-        formData.append("image", imageFile);
+        formData.append("image", selectedImage);
         formData.append("shopId", shopId);
 
-        await axios.post("http://localhost:5000/upload-shop-image", formData, {
+        await axios.post("http://localhost:5000/shops/upload-shop-image", formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
@@ -38,19 +50,14 @@ const CreateShop = () => {
       }
 
       message.success("Boutique créée avec succès !");
+      navigate("/shops");
     } catch (error) {
       console.error("Erreur lors de la création :", error);
-      message.error(error.response?.data?.message || "Erreur lors de la création.");
+      message.error(
+        error.response?.data?.message || "Erreur lors de la création."
+      );
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
@@ -61,7 +68,7 @@ const CreateShop = () => {
           Créer une boutique
         </Title>
 
-        <Form layout="vertical" onFinish={onFinish}>
+        <Form layout="vertical" form={form} onFinish={onFinish}>
           <Form.Item
             label="Nom de la boutique"
             name="name"
@@ -110,18 +117,25 @@ const CreateShop = () => {
           </Form.Item>
 
           <Form.Item label="Image de la boutique">
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-            {previewUrl && (
-              <img
-                src={previewUrl}
-                alt="Aperçu"
-                style={{ marginTop: 10, width: 200, borderRadius: 8 }}
-              />
-            )}
+            <Upload
+              beforeUpload={(file) => {
+                setSelectedImage(file);
+                return false; // empêche l'upload automatique
+              }}
+              showUploadList={selectedImage ? [{ name: selectedImage.name }] : false}
+              maxCount={1}
+            >
+              <Button icon={<UploadOutlined />}>Choisir une image</Button>
+            </Upload>
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} block>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              block
+            >
               Créer ma boutique
             </Button>
           </Form.Item>
